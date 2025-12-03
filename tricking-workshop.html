@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricking Workshopy - Slovensko</title>
+    <link rel="stylesheet" href="style.css"> 
+
+</head>
+
+<body>
+    <div class="main-background"></div>
+    <div class="content-wrapper">
+        <!-- Pridané pozadie stránky -->
+        <div class="page-background"></div>
+        
+        <div class="top-bar">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/matus_tct/" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="social-icon">
+                </a>
+                <a href="https://www.tiktok.com/@matus_tct" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" class="social-icon">
+                </a>
+                <a href="https://www.youtube.com/@matus_tct" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="social-icon">
+                </a>
+            </div>
+            
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="photos/TCT logo.png" alt="Tricking Workshopy Logo" class="logo-img">
+                </a>
+            </div>
+
+            <!-- Pomocný element pre vyváženie -->
+            <div class="right-spacer"></div>
+        </div>
+
+        <div class="header">
+            <h1 class="workshop-title">Matus TCT</h1>
+            <h2 class="workshop-subtitle">Tricking Workshop</h2>
+        </div>
+
+        <!-- Ostatný obsah zostáva rovnaký... -->
+        <div class="text-section">
+            <h2><img src="photos/ikonky/info_ikona.png" alt="Info" style="height:1.5em;vertical-align:-0.35em;margin-right:8px;">Čo je Tricking Workshop?</h2>
+            <p>
+                Akcia, na ktorej ti otvoríme dvere do sveta <strong>Trickingu</strong> a pre tých skúsenejších poradíme ako sa stať ešte lepšími. 
+            </p>
+
+            <!-- Added: "NAUČÍME ŤA:" bullets -->
+            <h3 style="margin-top:0.6rem;">NAUČÍME ŤA:</h3>
+            <ul>
+                <li>základy trickingu</li>
+                <li>posilňovať a stretchovať</li>
+                <li>prekonávať strach</li>
+                <li>pracovať so stresom</li>
+            </ul>
+
+            <p>
+                Tréning prebieha podľa bezpečnej metodiky a je vhodný pre úplných začiatočníkov aj pokročilých. Nezáleží na výške, váhe ani skúsenostiach - hlavná je chuť sa hýbať!
+            </p>
+
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/info_ikona.png" alt="Tricking" style="height:1.5em;vertical-align:middle;margin-right:8px;">Čo je tricking?</h2>
+            <p>
+              Tricking je moderná pohybová disciplína, ktorá spája akrobatické prvky z gymnastiky, bojových umení a tanca.
+              Je to vizuálne pôsobivý šport, v ktorom ide o plynulé kombinácie sált, kopov a otočiek – všetko vykonané s dôrazom na techniku, kreativitu a osobný štýl.
+            </p>
+            <video controls style="max-width:100%; margin-top: 20px;">
+          <source src="video/Matus Turansky Tricking ukazka.mp4" type="video/mp4">
+          Váš prehliadač nepodporuje prehrávanie videí.
+          </video>
+        </div>
+
+        <div class="map-container">
+            <a href="bratislava.html" class="clickable-city" style="top: 72%; left: 1%;">Bratislava</a>
+            <a href="nitra.html" class="clickable-city" style="top: 62%; left: 20%;">Nitra</a>
+            <a href="kosice.html"  class="clickable-city" style="top: 48%; left: 72%;">Košice</a>
+            <a href="poprad.html" class="clickable-city" style="top: 25%; left: 57%;">Poprad</a>
+
+            <svg style="display: none;">
+                <filter id="remove-white" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="1 0 0 0 0
+                                                    0 1 0 0 0
+                                                    0 0 1 0 0
+                                                   -1 -1 -1 3 0"/>
+                </filter>
+            </svg>
+
+            <img src="photos\mapa 2.svg" 
+                 alt="Mapa Slovenska" 
+                 class="slovakia-map">
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/calendar_ikona.png" alt="Termíny" style="height:1.5em;vertical-align:middle;margin-right:8px;">Termíny a Registrácie</h2>
+
+            <div class="schedule-card">
+                <div class="schedule-date">18.1. 2026 - Bratislava</div>
+                <div class="schedule-image">
+                    <img src="photos/pozadia/pozadiashortcut/BRATISLAVA.png" alt="Bratislava">
+                </div>
+                <div class="schedule-status">Voľné miesta</div>
+                <div class="schedule-actions">
+                    <a href="registracia.html">
+                        <button class="register-btn">Registrovať</button>
+                    </a>
+                    <a href="bratislava.html">
+                        <button class="info-btn">Viac info</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <div class="schedule-date">25.1. 2026 - Nitra</div>
+                <div class="schedule-image">
+                    <img src="photos/pozadia/pozadiashortcut/NITRA.png" alt="Nitra">
+                </div>
+                <div class="schedule-status">Voľné miesta</div>
+                <div class="schedule-actions">
+                    <a href="registracia.html">
+                        <button class="register-btn">Registrovať</button>
+                    </a>
+                    <a href="nitra.html">
+                        <button class="info-btn">Viac info</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <div class="schedule-date">1.2. 2026 - Poprad</div>
+                <div class="schedule-image">
+                    <img src="photos/pozadia/pozadiashortcut/POPRAD.png" alt="Poprad">
+                </div>
+                <div class="schedule-status">Voľné miesta</div>
+                <div class="schedule-actions">
+                    <a href="registracia.html">
+                        <button class="register-btn">Registrovať</button>
+                    </a>
+                    <a href="poprad.html">
+                        <button class="info-btn">Viac info</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <div class="schedule-date">8.2. 2026 - Košice</div>
+                <div class="schedule-image">
+                    <img src="photos/pozadia/pozadiashortcut/KOSICE.png" alt="Košice">
+                </div>
+                <div class="schedule-status">Voľné miesta</div>
+                <div class="schedule-actions">
+                    <a href="registracia.html">
+                        <button class="register-btn">Registrovať</button>
+                    </a>
+                    <a href="kosice.html">
+                        <button class="info-btn">Viac info</button>
+                    </a>
+                </div>
+            </div>
+            <div class="schedule-card">
+                <div class="schedule-date">1.3. 2026 - Praha</div>
+                <div class="schedule-image">
+                    <img src="photos/pozadia/pozadiashortcut/PRAHA.jpg" alt="Praha">
+                </div>
+                <div class="schedule-status">Voľné miesta</div>
+                <div class="schedule-actions">
+                    <a href="registracia.html">
+                        <button class="register-btn">Registrovať</button>
+                    </a>
+                    <a href="praha.html">
+                        <button class="info-btn">Viac info</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/time_ikona.png" alt="Program" style="height:1.5em;vertical-align:middle;margin-right:8px;">Program Tricking Workshopu</h2>
+            <p><strong>12:00 - Začiatok registrácie</strong> (prineste si podpísanú prihlášku)</p>
+            <ul>
+                <li>možnosť zakúpiť si Matus TCT merch</li>
+                <li>Tricking vystúpenie</li>
+                <li>tréning Tricking základov v skupinách</li>
+                <li>nácvik sált s istením</li>
+                <li>posilňovacie cvičenia s vlastnou váhou na spevnenie tela</li>
+                <li>spoločné fotenie</li>
+            </ul>
+            <p><strong>16:00 - Ukončenie workshopu</strong></p>
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/backpack_ikona.png" alt="Čo si vziať" style="height:1.5em;vertical-align:middle;margin-right:8px;">Čo si vziať so sebou?</h2>
+            <ul>
+                <li>podpísanú prihlášku (v prípade veku pod 15 podpisuje rodič), bez nej nie je možné trénovať!</li>
+                <li>športové oblečenie</li>
+                <li>kartičku poistenca</li>
+                <li>malinké občerstvenie a dostatok pitnej vody</li>
+                <li>ak si chceš kúpiť merch, nezabudni na hotovosť</li>
+            </ul>
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/info_ikona.png" alt="Info" style="height:1.5em;vertical-align:-0.35em;margin-right:8px;">BOL SI UŽ NA WORKSHOPE?</h2>
+            <p> Neváhaj a prihlás sa znova, lebo sa budeme učiť úplne <strong>nové tricky</strong>, získaš <strong>nové vedomosti </strong>a dostaneš možnosť zakúpenia <strong>nového exkluzívneho merchu</strong>. </p>
+            <p> <strong>Pokročilejší trickery</strong> sa budú učiť tažšie tricky a taktiež Matúšovu špecialitu a to <strong>“frontswing”</strong> tricky, v ktorých je Matúš jeden z najlepších na svete. </p>
+        </div>
+
+        <div class="text-section">
+            <h2><img src="photos/ikonky/info_ikona.png" alt="Info" style="height:1.5em;vertical-align:-0.35em;margin-right:8px;">Ďalšie informácie</h2>
+            <p>
+                Workshopu sa môžeš zúčastniť aj ako divák!  
+                Vstupné pre divákov je <strong>10€</strong> a platí sa v hotovosti na mieste.
+            </p>
+            <p>
+                <em>(Pre rodičov: túto sumu neplatí jeden sprievod účastníka, ktorý dieťa priváža na akciu.)</em>
+            </p>
+            <p>
+                V prípade zabudnutia prihlášky je možné ju podpísať priamo na mieste.
+            </p>
+            <p>
+                <strong>Workshop je určený pre účastníkov od 6 rokov.</strong>
+            </p>
+        </div>
+
+        <div class="text-section-cena">
+            <h2><strong>CENA 40€</strong><br></h2>
+            <p>
+                <strong>Ako zaplatím za workshop?</strong><br>
+                Po zaregistrovaní na workshop Vám zašleme na email platobné údaje, ktoré bude treba uhradiť bankovým prevodom do 3 pracovných dní. Po potvrdení platby na náš účet Vám zašleme potvrdzovací email.
+            </p>
+        </div>
+
+        <div class="text-section" style="text-align: center;">
+            <h2><img src="photos/ikonky/registracia_ikona.png" alt="Registrácia" style="height:1.5em;vertical-align:middle;margin-right:8px;">Chceš sa zúčastniť?</h2>
+            <p>Vyplň jednoduchý registračný formulár a zaisti si miesto na workshope.</p>
+            <a href="registracia.html">
+                <button class="register-btn">
+                Registrovať sa
+                </button>
+            </a>
+        </div>
+
+        <footer id="kontakt">
+            <p>© 2025 Matus TCT | Kontakt: matustctworkshop@gmail.com</p>
+            <a href="obchodne-podmienky.pdf" class="footer-link">Obchodné podmienky</a>
+        </footer>
+    </div> <!-- Koniec content-wrapper -->
+
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxzVDmkZSBlHFL7e33Bu0_PEaLGssNM2YUe79GD_yYBDB_yGM3aCfOOs3YMqvjYlL-_4Q/exec"; // Replace with your real URL
+
+        // Match city names in your Google Sheet keys to strings in the <strong> text
+        const cityMap = {
+            "Poprad": "Poprad - Skill Lab Poprad",
+            "Košice": "Košice - Gymnastik Košice"
+        };
+
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(registeredData => {
+            document.querySelectorAll("tr[data-capacity]").forEach(row => {
+                const cityCellText = row.querySelector("td[data-label='Mesto'] strong")?.textContent || "";
+                
+                // Find matching city key
+                const matchingCityKey = Object.keys(cityMap).find(city =>
+                cityCellText.includes(cityMap[city])
+                );
+
+                if (matchingCityKey) {
+                const registeredCount = registeredData[matchingCityKey];
+                row.setAttribute("data-registered", registeredCount);
+
+                // Optionally update the "Prihlásení" column
+                const capacity = parseInt(row.getAttribute("data-capacity"), 10);
+                const statusCell = row.querySelector(".registered-count");
+
+                if (registeredCount >= capacity) {
+                    statusCell.textContent = "Kapacita naplnená";
+                    statusCell.style.color = "red";
+
+                    const button = row.querySelector(".register-btn");
+                    if (button) {
+                        button.disabled = true;
+                        button.textContent = "Uzavreté";
+                        button.style.opacity = "0.5";
+                        button.style.cursor = "not-allowed";
+                    }
+                } else {
+                    statusCell.textContent = `Voľné miesta`;
+                    statusCell.style.color = "green";
+                }
+                }
+            });
+        })
+            .catch(error => {
+                console.error("Error fetching registration data:", error);
+        });
+
+        // Animácie pri scrollovaní
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.text-section, .map-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Animácia pre nadpisy
+            const headings = document.querySelectorAll('.text-section h2');
+            headings.forEach((heading, index) => {
+                heading.style.animation = `fadeIn 0.5s ease-out ${index * 0.2 + 0.3}s forwards`;
+                heading.style.opacity = '0';
+            });
+        });
+
+        // Efekt pre tlačidlá miest
+        const cityButtons = document.querySelectorAll('.clickable-city');
+        cityButtons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.animation = 'none';
+            });
+            button.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    button.style.animation = 'pulse 2s infinite';
+                }, 50);
+            });
+        });
+
+        // Funkcia na zvýšenie počtu prihlásených a presmerovanie
+        function handleRegistration(button) {
+            // Presmerujeme na registračný formulár
+            window.location.href = "registracia.html";
+        }
+
+        // Inicializácia počtov pri načítaní stránky
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.schedule-table tbody tr');
+            rows.forEach(row => {
+                const button = row.querySelector('.register-btn');
+                button.addEventListener('click', function() {
+                    handleRegistration(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

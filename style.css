@@ -1,0 +1,883 @@
+/* Base Styles */
+body {
+    text-transform: uppercase;
+    margin: 0;
+    background-color: #000000;
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Top Bar */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.text-section h2 {
+    font-size: 2.5rem;
+    font-weight: 750;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+/* Header Container */
+.header-container {
+    position: relative;
+    height: auto;
+    min-height: 20vh;
+    overflow: hidden;
+    padding-top: 60px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-container.main-page {
+    height: 100vh;
+}
+
+/* Header Content */
+.header {
+    background-color: rgba(0, 0, 0, 0.082);
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.workshop-title, .header-title {
+    font-size: 3.5rem;
+    font-weight: 1000;
+    letter-spacing: -1px;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.workshop-subtitle {
+    font-size: 3.5rem;
+    font-weight: 1000;
+    letter-spacing: -1px;
+    color: #fff;
+    margin: 10px 0 0 0;
+    line-height: 1;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Header Background */
+.header-background {
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.7;
+    transition: background-image 1s ease-in-out;
+    transform: scale(1.4);
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.social-icon:hover {
+    transform: scale(1.15) rotate(10deg);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+}
+
+/* Logo */
+.logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    transition: all 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* Content Sections */
+.text-section {
+    max-width: 850px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.048);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.075);
+    line-height: 1.7;
+    font-size: 1.05em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.text-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Map */
+.map-container {
+    margin: 60px auto 30px;
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.8s ease;
+}
+
+.map-container.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.slovakia-map {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3)) url('#remove-white');
+    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.slovakia-map:hover {
+    transform: scale(1.01);
+}
+
+/* City Links */
+.clickable-city {
+    position: absolute;
+    background: linear-gradient(135deg, #000000, #252525);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    animation: pulse 2s infinite;
+}
+
+.clickable-city:hover {
+    animation: none;
+    transform: scale(1.08);
+    background: linear-gradient(135deg, #000000, #2b2a2a);
+    box-shadow: 0 0 15px rgba(5, 0, 0, 0.8);
+}
+
+/* Buttons - consolidated */
+.register-btn {
+    padding: 12px 24px;
+    font-size: 1em;
+    border-radius: 8px;
+    background: #42a5f5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+}
+
+.register-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+}
+
+.register-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.register-btn:hover::before {
+    left: 100%;
+}
+
+.info-btn {
+    background: #680000;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* New: subtle secondary button for "Viac info o akcii" */
+.more-info-btn {
+    display: inline-block;
+    padding: 12px 18px;
+    margin-left: 12px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.22s ease;
+    vertical-align: middle;
+}
+
+.city-cta {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Table / Schedule (consolidated) */
+.schedule-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 30px 0;
+    font-size: 1.1rem;
+    background: rgba(255,255,255,0.07);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(49,0,0,0.10);
+}
+
+.schedule-table th, .schedule-table td {
+    padding: 14px 10px;
+    border: none;
+}
+
+.schedule-table th {
+    background: #000000;
+    color: #fff;
+    font-weight: 700;
+}
+
+.schedule-table td {
+    background: rgba(0,0,0,0.04);
+    color: #ffffff;
+}
+
+.schedule-table tbody tr {
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.schedule-table tbody tr:hover {
+    background: #ffe5e5;
+    box-shadow: 0 2px 12px rgba(104,0,0,0.10);
+}
+
+.schedule-table td a {
+    padding: 7px 18px;
+    border-radius: 8px;
+    background: #fff6f6;
+    color: #2b0000;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.schedule-table td a:hover {
+    background: #2b0000;
+    color: #fff;
+}
+
+/* Schedule cards */
+.schedule-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.schedule-date {
+    background: #2b0000;
+    color: white;
+    padding: 12px 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.schedule-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-status {
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #01c020;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.schedule-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+/* Footer */
+footer {
+    background: #111;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+footer p {
+    color: #fff;
+}
+
+.footer-link {
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-top: 15px;
+}
+
+/* Background & page wrapper (single definitions) */
+.main-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background: url('photos/pozadia/pozadie_workshopy.png') center/cover no-repeat;
+    opacity: 1;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
+    background-attachment: fixed;
+}
+
+.page-background {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('photos/pozadia/pozadie_workshopy.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: scroll;
+    opacity: 0.99;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.content-wrapper {
+    padding-top: 60px;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.199);
+}
+
+/* Price section */
+.text-section-cena {
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 10;
+    position: relative;
+}
+
+.text-section-cena h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.text-section-cena p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+
+.text-section-cena .highlight {
+    font-weight: bold;
+    color: #ffd700;
+    font-size: 1.2rem;
+}
+
+.info-button {
+    display: inline-block;
+    background-color: #680000;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background-color 0.3s ease !important;
+}
+
+.info-button:hover {
+    background-color: #a80000;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes colorChange {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Title underline */
+.title-underline {
+    width: 48%;
+    height: 2px;
+    margin: 10px auto 0;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    transform: scaleX(0);
+    opacity: 1;
+}
+
+.title-underline.active {
+    animation: underlineGrow 0.8s cubic-bezier(.2,.9,.2,1) 0s forwards;
+}
+
+.title-underline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.9), rgba(255,255,255,0));
+    filter: blur(0.6px);
+    transform: translateZ(0);
+    opacity: 0;
+}
+
+.title-underline.active::before {
+    opacity: 0.95;
+    animation: shimmer 1s ease-in-out 0.25s 1 forwards;
+}
+
+@keyframes underlineGrow {
+    from { transform: scaleX(0); opacity: 0.0; }
+    to   { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes shimmer {
+    0%   { left: -40%; }
+    50%  { left: 60%; }
+    100% { left: 120%; }
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .workshop-title, .header-title {
+        font-size: 4rem;
+        margin: 18px 0;
+    }
+    .workshop-subtitle {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .workshop-title, .header-title {
+        font-size: 3rem;
+        line-height: 1.1;
+        margin: 18px 0;
+    }
+    .workshop-subtitle {
+        font-size: 2.8rem;
+    }
+    .header-container {
+        min-height: 50vh;
+    }
+
+    /* Mobile Top Bar */
+    body {
+        padding-top: 40px;
+    }
+    .top-bar {
+        height: 60px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        background: rgba(0, 0, 0, 0.9);
+        justify-content: space-between;
+    }
+
+    .logo-container {
+        margin-left: -160px;
+    }
+
+    .logo-img {
+        transform: scale(1.6);
+        height: 50px;
+    }
+    .logo-img:hover{
+        transform: scale(1.7);
+    }
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        margin-left: 250px;
+        align-items: center;
+    }
+
+    .social-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .header-container,
+    .content-wrapper {
+        background-color: #000000;
+        padding-top: 30px;
+    }
+
+    .content-wrapper {
+        background-color: rgba(0, 0, 0, 0.096);
+        padding: 0 15px;
+    }
+
+    .schedule-card {
+        border-radius: 10px;
+    }
+
+    .register-btn, .info-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .page-background {
+        background-image: url('photos/pozadia/pozadie_workshopy_mobile.png');
+        background-size: cover;
+        background-clip: scroll;
+    }
+}
+
+@media (max-width: 480px) {
+    .workshop-title, .header-title {
+        font-size: 2.2rem;
+        line-height: 1.15;
+        padding: 0 10px;
+        margin: 18px 0;
+    }
+    .workshop-subtitle {
+        font-size: 1.8rem;
+    }
+
+    .logo-img {
+        height: 28px;
+    }
+
+    .social-icon {
+        margin-left: auto;
+        width: 22px;
+        height: 22px;
+    }
+
+    .top-bar {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .workshop-title, .header-title {
+        font-size: 1.8rem;
+    }
+    .workshop-subtitle {
+        font-size: 1.5rem;
+    }
+}
+
+/* Touch Device Adjustments */
+@media (hover: none) {
+    .clickable-city,
+    .register-btn,
+    .social-icon,
+    .logo-img {
+        animation: none !important;
+    }
+
+    .clickable-city:hover,
+    .register-btn:hover,
+    .social-icon:hover,
+    .logo-img:hover {
+        transform: none !important;
+    }
+}
+
+/* Orientation Adjustments */
+@media (orientation: portrait) {
+    .header-container {
+        height: 60vh;
+    }
+
+    .header-background {
+        transform: scale(1.3);
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    .header-container {
+        height: 100vh;
+    }
+
+    .header {
+        font-size: 3em;
+    }
+}
+
+/* Mobile layout for schedule table - consolidated transformations */
+@media (max-width: 1080px) {
+    .header {
+        font-size: 2.1em !important;
+        padding: 18px 10px 10px 10px !important;
+        text-align: center !important;
+        word-break: break-word;
+        line-height: 1.15 !important;
+        width: 100% !important;
+    }
+    .header span {
+        font-size: 2.1em !important;
+        letter-spacing: 1px !important;
+        padding: 0 10px !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    .header-container {
+        padding: 0 !important;
+        min-height: 90px !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+    .content-wrapper {
+        background-color: rgba(0, 0, 0, 0.096);
+        padding: 0 2vw !important;
+    }
+    .text-section {
+        padding: 15px !important;
+        margin: 20px 10px !important;
+        font-size: 1em !important;
+    }
+    .text-section h2 {
+        font-size: 1.6rem !important;
+        padding: 0 2px !important;
+        text-align: left !important;
+    }
+    .map-container {
+        padding: 10px 0 !important;
+    }
+    .slovakia-map {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 400px !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    .clickable-city {
+        font-size: 0.5rem !important;
+        padding: 2px 6px !important;
+    }
+    .schedule-table {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .schedule-table thead {
+        display: none;
+    }
+
+    .schedule-table tbody,
+    .schedule-table tr {
+        display: flex;
+        flex-direction: column;
+        background: #1f1f1f;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .schedule-table td {
+        display: block;
+        border: none;
+        padding: 0;
+        margin: 0;
+        background: none;
+        color: #333;
+    }
+
+    .schedule-table td[data-label="Dátum"] {
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 12px 10px 6px;
+        background: #1f1f1f;
+        color: #222;
+    }
+
+    .schedule-table td[data-label="Obrázok"] img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .schedule-table td[data-label="Stav"] {
+        text-align: center;
+        font-weight: bold;
+        color: #21e642;
+        padding: 8px;
+        background: #1f1f1f;
+    }
+
+    .schedule-table .actions-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        background: #1f1f1f;
+        border-top: 1px solid #ddd;
+    }
+
+    .register-btn {
+        background: #42a5f5;
+        color: #fff;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 6px;
+        min-width: 45%;
+        text-align: center;
+    }
+
+    .more-info-btn {
+        background: #6c757d;
+        color: #fff;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 6px;
+        min-width: 45%;
+        text-align: center;
+    }
+
+    .registered-count {
+        font-size: 1rem !important;
+        margin-bottom: 4px;
+    }
+    footer {
+        font-size: 0.95rem !important;
+        text-align: center !important;
+        padding: 12px 0 !important;
+    }
+    .schedule-table td[data-label="Mesto"] strong {
+        font-size: 1em;
+        white-space: normal;
+        word-break: break-word;
+        max-width: 180px;
+        display: inline-block;
+        color: #ffffff;
+    }
+    .schedule-table td[data-label="Dátum"] {
+        font-size: 1em;
+        white-space: normal;
+        word-break: break-word;
+        max-width: 180px;
+        display: inline-block;
+        color: #ffffff;
+    }
+}
+
