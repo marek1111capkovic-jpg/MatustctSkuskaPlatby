@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrácia na workshop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Background image for the whole page */
+    body {
+      background: url('photos/pozadia/registracia_pozadiee.png') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Oswald', sans-serif;
+    }
+
+    /* Additional styles specific to the form */
+    .registration-form {
+      max-width: 920px;
+      margin: 48px auto;
+      padding: 36px;
+      background: linear-gradient(180deg, rgba(12,12,12,0.86), rgba(8,8,8,0.82));
+      border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .form-section {
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .form-section h2 {
+      color: #fff;
+      margin-bottom: 18px;
+      font-size: 1.6rem;
+      letter-spacing: .6px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 400;
+      color: #fff;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%; /* full width inside their column */
+      box-sizing: border-box;
+      padding: 12px 14px;
+      background-color: #0f0f0f;
+      border: 1px solid #222;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .submit-btn {
+      padding: 14px 32px;
+      background: linear-gradient(90deg,#ff4444,#b22a2a);
+      color: #fff;
+      border-radius: 10px;
+      border: 0;
+      font-weight: 800;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 26px rgba(178,42,42,0.18);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      text-transform: uppercase;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    #parentInfoSection {
+      display: none;
+    }
+
+    /* Overlay to improve readability */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    /* Terms checkbox styles */
+    .terms-checkbox {
+      margin: 20px 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .terms-checkbox input {
+      width: auto;
+      margin-right: 10px;
+      margin-top: 3px;
+    }
+
+    .terms-checkbox label {
+      display: inline;
+      font-size: 0.9rem;
+    }
+
+    .terms-link {
+      color: #ff4444;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .terms-link:hover {
+      color: #ff0000;
+      text-decoration: underline;
+    }
+    
+    /* Workshop location styles */
+    .workshop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .workshop-option {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.15));
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+      cursor: pointer;
+    }
+
+    .workshop-option:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      border-color: rgba(255,68,68,0.35);
+    }
+
+    /* custom radio look */
+    .workshop-option input[type="radio"]{
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2.5px solid #666;
+      background: transparent;
+      margin-top: 6px;
+      flex: 0 0 auto;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .workshop-option input[type="radio"]:checked{
+      border-color: #ff4444;
+      background: radial-gradient(circle at 50% 45%, #ff4444 0 45%, transparent 46%);
+      box-shadow: 0 6px 18px rgba(255,68,68,0.12);
+    }
+
+    .workshop-info h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+    .workshop-info p {
+      margin: 0;
+      color: #d0d0d0;
+      font-size: .9rem;
+    }
+
+    /* selected card styling when radio is checked (works because input + .workshop-info in label) */
+    .workshop-option input[type="radio"]:checked + .workshop-info,
+    .workshop-option input[type="radio"]:checked + .workshop-info * {
+      color: #fff;
+    }
+    .workshop-option input[type="radio"]:checked + .workshop-info {
+      border-radius: 8px;
+      padding: 0;
+    }
+
+    /* disabled/look for full workshops */
+    .workshop-option.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      transform: none;
+      filter: grayscale(.08);
+    }
+    .workshop-option.disabled .workshop-info h3 { color: #bbb; }
+
+    /* Payment cards (podobné workshop kartám) */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .payment-option {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.12));
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      cursor: pointer;
+    }
+    .payment-option:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      border-color: rgba(255,68,68,0.25);
+    }
+    .payment-option input[type="radio"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2.5px solid #666;
+      background: transparent;
+      margin-top: 6px;
+      flex: 0 0 auto;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .payment-option input[type="radio"]:checked {
+      border-color: #ff4444;
+      background: radial-gradient(circle at 50% 45%, #ff4444 0 45%, transparent 46%);
+      box-shadow: 0 6px 18px rgba(255,68,68,0.12);
+    }
+    .payment-info h3 { margin:0 0 6px 0; font-size:1.05rem; color:#fff; }
+    .payment-info p { margin:0; color:#d0d0d0; font-size:.92rem; }
+    .payment-info .fee-note {
+      margin-top:8px;
+      font-size:0.82rem;
+      color:#ffd6d6;
+      background:rgba(255,68,68,0.06);
+      padding:6px 8px;
+      border-radius:6px;
+      display:inline-block;
+    }
+
+    /* Custom error message */
+    .error-message {
+      color: #ffb3b3;
+      background: rgba(104,0,0,0.12);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 14px 0;
+      display: none;
+    }
+
+    /* Loading spinner styles */
+    .loading-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      font-family: sans-serif;
+      color: #333;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ddd;
+      border-top: 4px solid #680000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 800px) {
+      body {
+        background: url('photos/pozadia/mobil_registracia_pozadie.png') center/cover no-repeat;
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* smaller screens adjustments */
+    @media (max-width: 600px) {
+      .registration-form { padding: 20px; margin: 20px; }
+      .workshop-option { padding: 12px; gap: 10px; border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="fullMessage" class="error-message" style="display:none;">
+    Momentálne nie je voľné miesto pre účastníka v tomto termíne.
+  </div>
+  <div class="registration-form" id="registrationForm">
+    <h1 style="color: white; text-align: center;">Registrácia na Workshop</h1>
+    
+    <!-- Custom error message div -->
+    <div id="ageError" class="error-message"></div>
+    
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <div id="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Načítavam dostupnosť...</p>
+    </div>
+
+    <form id = "form" style="display: none;" action="https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec"
+          method="POST"
+          target="hidden_iframe"
+          onsubmit="return validateForm()">
+          <input type="hidden" id="sposobPlatby" name="sposobPlatby" value="bankovy_prevod">
+      <!-- New Section: Workshop Selection -->
+      <div class="form-section">
+        <h2>Výber workshopu</h2>
+        
+        <div class="form-group">
+          <label>Vyberte mesto konania:</label>
+
+          <div class="workshop-grid">
+            <label class="workshop-option">
+              <input type="radio" id="bratislava" name="workshopCity" value="Bratislava">
+              <div class="workshop-info">
+                <h3>Bratislava</h3>
+                <p>Dátum: 18.1.2026 · Inter gymnastik Bratislava</p>
+              </div>
+            </label>
+
+            <label class="workshop-option">
+              <input type="radio" id="nitra" name="workshopCity" value="Nitra">
+              <div class="workshop-info">
+                <h3>Nitra</h3>
+                <p>Dátum: 25.1.2026 · Skill lab Nitra</p>
+              </div>
+            </label>
+
+            <label class="workshop-option">
+              <input type="radio" id="poprad" name="workshopCity" value="Poprad">
+              <div class="workshop-info">
+                <h3>Poprad</h3>
+                <p>Dátum: 1.2.2026 · Skill lab Poprad</p>
+              </div>
+            </label>
+
+            <label class="workshop-option">
+              <input type="radio" id="kosice" name="workshopCity" value="Košice">
+              <div class="workshop-info">
+                <h3>Košice</h3>
+                <p>Dátum: 8.2.2026 · Gymnastik Košice</p>
+              </div>
+            </label>
+            <label class="workshop-option">
+              <input type="radio" id="praha" name="workshopCity" value="Praha">
+              <div class="workshop-info">
+                <h3>Praha</h3>
+                <p>Dátum: 1.3.2026 · JojoGym</p>
+              </div>
+            </label>
+          </div>
+
+        </div>
+        <!-- Workshop selection error (shown if user tries to submit without choosing a workshop) -->
+        <div id="workshopError" class="error-message" style="display:none;"></div>
+      </div>
+      
+      <!-- Section 1: Personal Information -->
+      <div class="form-section">
+        <h2>Osobné údaje účastníka</h2>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">Meno</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="lastName">Priezvisko</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="Tel.cislo">Telefónne Číslo</label>
+            <input type="text" id="Tel.cislo" name="Tel.cislo" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gender">Pohlavie</label>
+            <select id="gender" name="gender" required>
+              <option value="">Vyberte pohlavie</option>
+              <option value="male">Muž</option>
+              <option value="female">Žena</option>
+              <option value="other">Iné</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="birthDate">Dátum narodenia</label>
+            <input type="date" id="birthDate" name="birthDate" required onchange="checkAge()">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 2: Address -->
+      <div class="form-section">
+        <h2>Adresa trvalého bydliska</h2>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="street">Ulica</label>
+            <input type="text" id="street" name="street" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="streetNumber">Číslo popisné</label>
+            <input type="text" id="streetNumber" name="streetNumber" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">Mesto</label>
+            <input type="text" id="city" name="city" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="zipCode">PSČ</label>
+            <input type="text" id="zipCode" name="zipCode" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="country">Štát</label>
+          <select id="country" name="country" required>
+            <option value="">Vyberte štát</option>
+            <option value="SK">Slovensko</option>
+            <option value="CZ">Česká republika</option>
+            <option value="other">Iný</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Section 3: Health Information -->
+      <div class="form-section">
+        <h2>Zdravotné informácie</h2>
+        
+        <div class="form-group">
+          <label for="healthIssues">Zdravotné obmedzenia účastníka (ak nie sú - nevyplňujte)</label>
+          <textarea id="healthIssues" name="healthIssues" rows="4"></textarea>
+        </div>
+      </div>
+      
+      <!-- Section 4: Parent Information -->
+      <div class="form-section" id="parentInfoSection">
+        <h2>Údaje o rodičovi</h2>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="parentFirstName">Meno rodiča</label>
+            <input type="text" id="parentFirstName" name="parentFirstName">
+          </div>
+          
+          <div class="form-group">
+            <label for="parentLastName">Priezvisko rodiča</label>
+            <input type="text" id="parentLastName" name="parentLastName">
+          </div>
+        </div>
+
+          <div class="form-group">
+            <label for="parentPhone">Telefónne číslo na rodiča</label>
+            <input type="tel" id="parentPhone" name="parentPhone">
+          </div>
+      </div>
+      
+      <!-- Terms and conditions checkbox -->
+      <div class="terms-checkbox">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms">Súhlasím s <a href="obchodne-podmienky.pdf" class="terms-link" target="_blank">obchodnými podmienkami</a> a spracovaním osobných údajov</label>
+      </div>
+
+      <!-- Payment method selection (card-like) -->
+      <div class="form-section">
+        <h2>Spôsob platby</h2>
+        <div class="form-group">
+          <label>Vyberte spôsob platby:</label>
+          <div class="payment-grid">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="bankovy" checked>
+              <div class="payment-info">
+                <h3>Bankový prevod</h3>
+                <p>Inštrukcie k platbe vám prídú e‑mailom.</p>
+              </div>
+            </label>
+
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="online">
+              <div class="payment-info">
+                <h3>Online platba</h3>
+                <p>Kartou / Apple Pay / Google Pay </p>
+                <div class="fee-note">Pri online platbe sa účtuje príplatok 3% k sume.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="submit-btn">Odoslať prihlášku</button>
+      <div id="loading-spinner" style="display:none; text-align:center; margin-top:20px;">
+        <div style="display:inline-block;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="20" stroke="#680000" stroke-width="6" stroke-linecap="round" stroke-dasharray="31.4 31.4"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/>
+          </svg>
+        </div>
+        <div style="color:#fff; margin-top:10px; font-size:1.1rem;">Odosielam...</div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Funkcia na kontrolu veku
+    function checkAge() {
+      const birthDate = new Date(document.getElementById('birthDate').value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      const parentSection = document.getElementById('parentInfoSection');
+      
+      if (age < 15) {
+        parentSection.style.display = 'block';
+        document.getElementById('parentFirstName').required = true;
+        document.getElementById('parentLastName').required = true;
+        document.getElementById('parentPhone').required = true;
+      } else {
+        parentSection.style.display = 'none';
+        document.getElementById('parentFirstName').required = false;
+        document.getElementById('parentLastName').required = false;
+        document.getElementById('parentPhone').required = false;
+      }
+    }
+
+    // Funkcia na validáciu formulára pred odoslaním
+    function validateForm() {
+      // ensure hidden field contains current payment selection
+      syncPaymentHidden();
+      
+      const birthDateInput = document.getElementById('birthDate');
+      const birthDate = new Date(birthDateInput.value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age < 6) {
+        // Zobrazíme vlastnú chybovú hlášku namiesto alertu
+        const errorDiv = document.getElementById('ageError');
+        errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
+        errorDiv.style.display = 'block';
+        
+        // Posunieme sa na chybovú hlášku
+        errorDiv.scrollIntoView({ behavior: 'smooth' });
+        
+        return false; // Zabráni odoslaniu formulára
+      }
+
+      // Check that a workshop/location was selected
+      const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
+      if (!selectedWorkshop) {
+        const we = document.getElementById('workshopError');
+        we.textContent = 'Vyberte miesto konania workshopu, bez vyplnenia sa prihlásiť nedá.';
+        we.style.display = 'block';
+        we.scrollIntoView({ behavior: 'smooth' });
+        return false;
+      }
+
+      // Ak je vek OK, skryjeme chybovú hlášku ak bola zobrazená
+      document.getElementById('ageError').style.display = 'none';
+      
+      // Zobrazíme spinner a skryjeme tlačidlo
+      document.querySelector('.submit-btn').style.display = 'none';
+      document.getElementById('loading-spinner').style.display = 'block';
+      
+      return true; // Povolíme odoslanie formulára
+    }
+
+    // Funkcia na automatické vybratie mesta podľa URL parametra
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const city = params.get('city');
+      if (city) {
+        const radio = document.querySelector('input[name="workshopCity"][value="' + city + '"]');
+        if (radio) {
+          radio.checked = true;
+        }
+      }
+    });
+
+    // Sync selected payment radio into hidden field so Sheets dostane spôsob platby
+    function syncPaymentHidden() {
+      const sel = document.querySelector('input[name="paymentMethod"]:checked');
+      const val = sel ? (sel.value === 'online' ? 'online' : 'bankovy_prevod') : 'bankovy_prevod';
+      const hidden = document.getElementById('sposobPlatby');
+      if (hidden) hidden.value = val;
+    }
+    // update on change
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => {
+      r.addEventListener('change', syncPaymentHidden);
+    });
+    // initial sync on load
+    window.addEventListener('DOMContentLoaded', syncPaymentHidden);
+
+    // Wait for iframe to load after submission
+    document.getElementById('hidden_iframe').addEventListener('load', function () {
+      // If we triggered submission as part of the online-flow, start Stripe checkout now
+      if (window._onlineSubmitting) {
+        window._onlineSubmitting = false;
+        // small delay to ensure iframe processing finished
+        setTimeout(() => startStripeCheckout(), 120);
+        return;
+      }
+      // Standard bank transfer flow: after submission redirect to success page
+      if (document.querySelector('.submit-btn').style.display === 'none') {
+        window.location.href = 'uspesna-platba.html';
+      }
+    });
+    
+    const capacities = {
+      'Bratislava': 40,
+      'Košice': 40,
+      'Nitra': 40,
+      'Poprad': 30,
+      'Praha': 50
+    };
+//https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec
+    // IMPORTANT: make sure this is the Web App "exec" URL and deployment access is set to "Anyone, even anonymous"
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch(scriptURL)
+        .then(response => response.json())
+        .then(registered => {
+          Object.keys(capacities).forEach(city => {
+            const isFull = registered[city] >= capacities[city];
+            const input = document.querySelector(`input[name="workshopCity"][value="${city}"]`);
+            if (input && isFull) {
+              input.disabled = true;
+              input.closest('.workshop-option')?.classList.add('disabled');
+            }
+          });
+
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('form').style.display = 'block';
+        })
+        .catch(error => {
+          document.getElementById('loading').innerHTML = "<p>Chyba pri načítaní údajov.</p>";
+          console.error("Error fetching registration data:", error);
+        });
+    });
+
+    // Zmena textu tlačidla podľa spôsobu platby
+    function updateSubmitText() {
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
+      const btn = document.querySelector('.submit-btn');
+      if (!btn) return;
+      btn.textContent = method === 'online' ? 'Registrovať a zaplatiť' : 'Odoslať prihlášku';
+    }
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => {
+      r.addEventListener('change', updateSubmitText);
+    });
+    updateSubmitText();
+
+    // Stripe Checkout API volanie (rovnaké ako na platba/frontend/index.html)
+    async function startStripeCheckout() {
+      const btn = document.querySelector('.submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Pripravujeme platbu...';
+
+      // Získaj vybraný workshop (city) a priceId podľa potreby
+      const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked')?.value || '';
+      const priceId = 'price_XXXXXXXXXXXXXXXX'; // nahraď skutočným Stripe priceId
+
+      try {
+        const res = await fetch('https://matus-tc-tv1.vercel.app/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            priceId: priceId,
+            quantity: 1,
+            metadata: { city: selectedWorkshop }
+          })
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else if (data.id) {
+          window.location.href = `https://checkout.stripe.com/c/pay/${data.id}`;
+        } else {
+          alert('Chyba: ' + JSON.stringify(data));
+          btn.disabled = false;
+          btn.textContent = 'Registrovať a zaplatiť';
+        }
+      } catch (err) {
+        alert('Chyba siete: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'Registrovať a zaplatiť';
+      }
+    }
+
+    // Validácia formulára pred odoslaním
+    function validateForm() {
+      // ensure hidden field contains current payment selection
+      syncPaymentHidden();
+      
+      const birthDateInput = document.getElementById('birthDate');
+      const birthDate = new Date(birthDateInput.value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age < 6) {
+        // Zobrazíme vlastnú chybovú hlášku namiesto alertu
+        const errorDiv = document.getElementById('ageError');
+        errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
+        errorDiv.style.display = 'block';
+        
+        // Posunieme sa na chybovú hlášku
+        errorDiv.scrollIntoView({ behavior: 'smooth' });
+        
+        return false; // Zabráni odoslaniu formulára
+      }
+
+      // Check that a workshop/location was selected
+      const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
+      if (!selectedWorkshop) {
+        const we = document.getElementById('workshopError');
+        we.textContent = 'Vyberte miesto konania workshopu, bez vyplnenia sa prihlásiť nedá.';
+        we.style.display = 'block';
+        we.scrollIntoView({ behavior: 'smooth' });
+        return false;
+      }
+
+      // Získaj spôsob platby
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
+
+      if (paymentMethod === 'online') {
+        // najprv odošleme rovnaké údaje do Google Sheets cez skrytý iframe,
+        // až po potvrdení (iframe load) spustíme Stripe Checkout
+        document.getElementById('ageError').style.display = 'none';
+        document.querySelector('.submit-btn').style.display = 'none';
+        document.getElementById('loading-spinner').style.display = 'block';
+
+        window._onlineSubmitting = true;
+        // programatické odoslanie formulára do hidden_iframe
+        document.getElementById('form').submit();
+        return false; // zastavíme normálne odoslanie (už sme submitli ručne)
+      }
+
+      // Bankový prevod - štandardné odoslanie do Sheets
+      document.getElementById('ageError').style.display = 'none';
+      document.querySelector('.submit-btn').style.display = 'none';
+      document.getElementById('loading-spinner').style.display = 'block';
+      return true;
+    }
+  </script>
+
+</body>
+</html>
