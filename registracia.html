@@ -639,73 +639,73 @@
     }
 
     // Hlavná validácia formulára
-    function validateForm() {
-      console.log('validateForm called');
-      
-      // 1. Sync payment method
-      syncPaymentHidden();
-      
-      // 2. Kontrola veku
-      const birthDateInput = document.getElementById('birthDate');
-      const birthDate = new Date(birthDateInput.value);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      if (age < 6) {
-        const errorDiv = document.getElementById('ageError');
-        errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
-        errorDiv.style.display = 'block';
-        errorDiv.scrollIntoView({ behavior: 'smooth' });
-        return false;
-      }
+function validateForm() {
+  console.log('validateForm called');
+  
+  // 1. Sync payment method
+  syncPaymentHidden();
+  
+  // 2. Kontrola veku
+  const birthDateInput = document.getElementById('birthDate');
+  const birthDate = new Date(birthDateInput.value);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  if (age < 6) {
+    const errorDiv = document.getElementById('ageError');
+    errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
+    errorDiv.style.display = 'block';
+    errorDiv.scrollIntoView({ behavior: 'smooth' });
+    return false;
+  }
 
-      // 3. Kontrola výberu workshopu
-      const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
-      if (!selectedWorkshop) {
-        const we = document.getElementById('workshopError');
-        we.textContent = 'Vyberte miesto konania workshopu, bez vyplnenia sa prihlásiť nedá.';
-        we.style.display = 'block';
-        we.scrollIntoView({ behavior: 'smooth' });
-        return false;
-      }
+  // 3. Kontrola výberu workshopu
+  const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
+  if (!selectedWorkshop) {
+    const we = document.getElementById('workshopError');
+    we.textContent = 'Vyberte miesto konania workshopu, bez vyplnenia sa prihlásiť nedá.';
+    we.style.display = 'block';
+    we.scrollIntoView({ behavior: 'smooth' });
+    return false;
+  }
 
-      // 4. Kontrola, či workshop nie je plný
-      if (selectedWorkshop.disabled) {
-        const we = document.getElementById('workshopError');
-        we.textContent = 'Tento workshop je už plný. Vyberte iné mesto.';
-        we.style.display = 'block';
-        we.scrollIntoView({ behavior: 'smooth' });
-        return false;
-      }
+  // 4. Kontrola, či workshop nie je plný
+  if (selectedWorkshop.disabled) {
+    const we = document.getElementById('workshopError');
+    we.textContent = 'Tento workshop je už plný. Vyberte iné mesto.';
+    we.style.display = 'block';
+    we.scrollIntoView({ behavior: 'smooth' });
+    return false;
+  }
 
-      // 5. Získaj spôsob platby
-      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
-      console.log('Payment method selected:', paymentMethod);
+  // 5. Získaj spôsob platby
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
+  console.log('Payment method selected:', paymentMethod);
 
-      // Zobraziť spinner a skryť tlačidlo
-      document.querySelector('.submit-btn').style.display = 'none';
-      document.getElementById('loading-spinner').style.display = 'block';
+  // Zobraziť spinner a skryť tlačidlo
+  const submitBtn = document.querySelector('.submit-btn');
+  submitBtn.style.display = 'none';
+  document.getElementById('loading-spinner').style.display = 'block';
 
-      // Skryť chybové správy
-      document.getElementById('ageError').style.display = 'none';
-      document.getElementById('workshopError').style.display = 'none';
-if (paymentMethod === 'online') {
-    // PRE ONLINE PLATBU: Pošleme formulár AJAXom, aby sme mohli spracovať odpoveď
+  // Skryť chybové správy
+  document.getElementById('ageError').style.display = 'none';
+  document.getElementById('workshopError').style.display = 'none';
+
+  if (paymentMethod === 'online') {
+    // PRE ONLINE PLATBU: Použijeme AJAX
     event.preventDefault(); // Zastavíme štandardné odoslanie
     
     // Získame všetky dáta z formulára
     const form = document.getElementById('form');
     const formData = new FormData(form);
-    
-    // Konvertujeme na objekt
     const data = Object.fromEntries(formData);
     
-    console.log('Sending form data to GAS:', data);
+    console.log('Sending form data to GAS for online payment:', data);
     
     // Odošleme dáta AJAXom
     fetch(form.action, {
@@ -715,37 +715,29 @@ if (paymentMethod === 'online') {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
-    .then(response => response.text())
-    .then(responseText => {
-      console.log('GAS response:', responseText);
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log('GAS response for online payment:', responseJson);
       
-      try {
-        const responseJson = JSON.parse(responseText);
+      if (responseJson.success && responseJson.stripeSessionUrl) {
+        // POUŽIJEME PRIAMO FULL STRIPE URL!
+        console.log('Redirecting to FULL Stripe Checkout URL');
+        window.location.href = responseJson.stripeSessionUrl;
         
-        if (responseJson.success && responseJson.stripeSessionId) {
-          // ÚSPECH: GAS nám vrátil stripeSessionId
-          console.log('GAS returned stripeSessionId:', responseJson.stripeSessionId);
-          
-          // Presmerujeme na Stripe Checkout
-          window.location.href = `https://checkout.stripe.com/c/pay/${responseJson.stripeSessionId}`;
-          
-        } else if (responseJson.success && responseJson.checkoutUrl) {
-          // ÚSPECH: GAS nám vrátil priamu URL
-          console.log('GAS returned checkoutUrl:', responseJson.checkoutUrl);
-          window.location.href = responseJson.checkoutUrl;
-          
-        } else {
-          // CHYBA: GAS nevrátil očakávané dáta
-          console.error('GAS did not return Stripe session:', responseJson);
-          alert('Chyba: Nepodarilo sa vytvoriť platbu. Skúste znova.');
-          
-          // Resetujeme tlačidlo
-          submitBtn.style.display = 'block';
-          document.getElementById('loading-spinner').style.display = 'none';
-        }
-      } catch (e) {
-        console.error('Error parsing GAS response:', e);
-        alert('Chyba pri spracovaní odpovede. Skúste znova.');
+      } else if (responseJson.success && responseJson.checkoutUrl) {
+        // Fallback 1
+        console.log('Using checkoutUrl');
+        window.location.href = responseJson.checkoutUrl;
+        
+      } else if (responseJson.success && responseJson.stripeSessionId) {
+        // Fallback 2 (základný link - menej spoľahlivý)
+        console.log('Creating basic checkout link');
+        window.location.href = `https://checkout.stripe.com/c/pay/${responseJson.stripeSessionId}`;
+        
+      } else {
+        // CHYBA
+        console.error('GAS did not return valid Stripe URL:', responseJson);
+        alert('Chyba: Nepodarilo sa vytvoriť platbu. Skúste znova.');
         
         // Resetujeme tlačidlo
         submitBtn.style.display = 'block';
@@ -768,7 +760,7 @@ if (paymentMethod === 'online') {
     console.log('Bank transfer - standard submission via iframe');
     return true;
   }
-    }
+}
 
     // Funkcia na automatické vybratie mesta podľa URL parametra
     window.addEventListener('DOMContentLoaded', function() {
