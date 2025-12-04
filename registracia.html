@@ -335,7 +335,7 @@
       <p>Načítavam dostupnosť...</p>
     </div>
 
-    <form id = "form" style="display: none;" action="https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec"
+    <form id = "form" style="display: none;" action="https://script.google.com/macros/s/AKfycbxzVDmkZSBlHFL7e33Bu0_PEaLGssNM2YUe79GD_yYBDB_yGM3aCfOOs3YMqvjYlL-_4Q/exec"
           method="POST"
           target="hidden_iframe"
           onsubmit="return validateForm()">
@@ -580,126 +580,13 @@
       }
     }
 
-    // Funkcia na validáciu formulára pred odoslaním
-    function validateForm() {
-      // ensure hidden field contains current payment selection
-      syncPaymentHidden();
-      
-      const birthDateInput = document.getElementById('birthDate');
-      const birthDate = new Date(birthDateInput.value);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      if (age < 6) {
-        // Zobrazíme vlastnú chybovú hlášku namiesto alertu
-        const errorDiv = document.getElementById('ageError');
-        errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
-        errorDiv.style.display = 'block';
-        
-        // Posunieme sa na chybovú hlášku
-        errorDiv.scrollIntoView({ behavior: 'smooth' });
-        
-        return false; // Zabráni odoslaniu formulára
-      }
-
-      // Check that a workshop/location was selected
-      const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
-      if (!selectedWorkshop) {
-        const we = document.getElementById('workshopError');
-        we.textContent = 'Vyberte miesto konania workshopu, bez vyplnenia sa prihlásiť nedá.';
-        we.style.display = 'block';
-        we.scrollIntoView({ behavior: 'smooth' });
-        return false;
-      }
-
-      // Ak je vek OK, skryjeme chybovú hlášku ak bola zobrazená
-      document.getElementById('ageError').style.display = 'none';
-      
-      // Zobrazíme spinner a skryjeme tlačidlo
-      document.querySelector('.submit-btn').style.display = 'none';
-      document.getElementById('loading-spinner').style.display = 'block';
-      
-      return true; // Povolíme odoslanie formulára
-    }
-
-    // Funkcia na automatické vybratie mesta podľa URL parametra
-    window.addEventListener('DOMContentLoaded', function() {
-      const params = new URLSearchParams(window.location.search);
-      const city = params.get('city');
-      if (city) {
-        const radio = document.querySelector('input[name="workshopCity"][value="' + city + '"]');
-        if (radio) {
-          radio.checked = true;
-        }
-      }
-    });
-
-    // Sync selected payment radio into hidden field so Sheets dostane spôsob platby
+    // Sync selected payment radio into hidden field
     function syncPaymentHidden() {
       const sel = document.querySelector('input[name="paymentMethod"]:checked');
       const val = sel ? (sel.value === 'online' ? 'online' : 'bankovy_prevod') : 'bankovy_prevod';
       const hidden = document.getElementById('sposobPlatby');
       if (hidden) hidden.value = val;
     }
-    // update on change
-    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => {
-      r.addEventListener('change', syncPaymentHidden);
-    });
-    // initial sync on load
-    window.addEventListener('DOMContentLoaded', syncPaymentHidden);
-
-    // Wait for iframe to load after submission
-    document.getElementById('hidden_iframe').addEventListener('load', function () {
-      // If we triggered submission as part of the online-flow, start Stripe checkout now
-      if (window._onlineSubmitting) {
-        window._onlineSubmitting = false;
-        // small delay to ensure iframe processing finished
-        setTimeout(() => startStripeCheckout(), 120);
-        return;
-      }
-      // Standard bank transfer flow: after submission redirect to success page
-      if (document.querySelector('.submit-btn').style.display === 'none') {
-        window.location.href = 'uspesna-platba.html';
-      }
-    });
-    
-    const capacities = {
-      'Bratislava': 40,
-      'Košice': 40,
-      'Nitra': 40,
-      'Poprad': 30,
-      'Praha': 50
-    };
-//https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec
-    // IMPORTANT: make sure this is the Web App "exec" URL and deployment access is set to "Anyone, even anonymous"
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwqWgga5XwPunqJvAFAywqSi3md4U5cdVsvobNk7dU899vPZu2M-OV7MD0PWB9k9luA7Q/exec";
-
-    window.addEventListener('DOMContentLoaded', () => {
-      fetch(scriptURL)
-        .then(response => response.json())
-        .then(registered => {
-          Object.keys(capacities).forEach(city => {
-            const isFull = registered[city] >= capacities[city];
-            const input = document.querySelector(`input[name="workshopCity"][value="${city}"]`);
-            if (input && isFull) {
-              input.disabled = true;
-              input.closest('.workshop-option')?.classList.add('disabled');
-            }
-          });
-
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('form').style.display = 'block';
-        })
-        .catch(error => {
-          document.getElementById('loading').innerHTML = "<p>Chyba pri načítaní údajov.</p>";
-          console.error("Error fetching registration data:", error);
-        });
-    });
 
     // Zmena textu tlačidla podľa spôsobu platby
     function updateSubmitText() {
@@ -708,18 +595,15 @@
       if (!btn) return;
       btn.textContent = method === 'online' ? 'Registrovať a zaplatiť' : 'Odoslať prihlášku';
     }
-    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => {
-      r.addEventListener('change', updateSubmitText);
-    });
-    updateSubmitText();
 
-    // Stripe Checkout API volanie (rovnaké ako na platba/frontend/index.html)
+    // Stripe Checkout API volanie
     async function startStripeCheckout() {
       const btn = document.querySelector('.submit-btn');
-      btn.disabled = true;
-      btn.textContent = 'Pripravujeme platbu...';
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Pripravujeme platbu...';
+      }
 
-      // Získaj vybraný workshop (city) a priceId podľa potreby
       const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked')?.value || '';
       const priceId = 'price_XXXXXXXXXXXXXXXX'; // nahraď skutočným Stripe priceId
 
@@ -740,21 +624,28 @@
           window.location.href = `https://checkout.stripe.com/c/pay/${data.id}`;
         } else {
           alert('Chyba: ' + JSON.stringify(data));
-          btn.disabled = false;
-          btn.textContent = 'Registrovať a zaplatiť';
+          if (btn) {
+            btn.disabled = false;
+            updateSubmitText();
+          }
         }
       } catch (err) {
         alert('Chyba siete: ' + err.message);
-        btn.disabled = false;
-        btn.textContent = 'Registrovať a zaplatiť';
+        if (btn) {
+          btn.disabled = false;
+          updateSubmitText();
+        }
       }
     }
 
-    // Validácia formulára pred odoslaním
+    // Hlavná validácia formulára
     function validateForm() {
-      // ensure hidden field contains current payment selection
+      console.log('validateForm called');
+      
+      // 1. Sync payment method
       syncPaymentHidden();
       
+      // 2. Kontrola veku
       const birthDateInput = document.getElementById('birthDate');
       const birthDate = new Date(birthDateInput.value);
       const today = new Date();
@@ -766,18 +657,14 @@
       }
       
       if (age < 6) {
-        // Zobrazíme vlastnú chybovú hlášku namiesto alertu
         const errorDiv = document.getElementById('ageError');
         errorDiv.textContent = 'Účastník nesplňa podmienky na účasť na workshope. Musí mať aspoň 6 rokov.';
         errorDiv.style.display = 'block';
-        
-        // Posunieme sa na chybovú hlášku
         errorDiv.scrollIntoView({ behavior: 'smooth' });
-        
-        return false; // Zabráni odoslaniu formulára
+        return false;
       }
 
-      // Check that a workshop/location was selected
+      // 3. Kontrola výberu workshopu
       const selectedWorkshop = document.querySelector('input[name="workshopCity"]:checked');
       if (!selectedWorkshop) {
         const we = document.getElementById('workshopError');
@@ -787,28 +674,191 @@
         return false;
       }
 
-      // Získaj spôsob platby
-      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
-
-      if (paymentMethod === 'online') {
-        // najprv odošleme rovnaké údaje do Google Sheets cez skrytý iframe,
-        // až po potvrdení (iframe load) spustíme Stripe Checkout
-        document.getElementById('ageError').style.display = 'none';
-        document.querySelector('.submit-btn').style.display = 'none';
-        document.getElementById('loading-spinner').style.display = 'block';
-
-        window._onlineSubmitting = true;
-        // programatické odoslanie formulára do hidden_iframe
-        document.getElementById('form').submit();
-        return false; // zastavíme normálne odoslanie (už sme submitli ručne)
+      // 4. Kontrola, či workshop nie je plný
+      if (selectedWorkshop.disabled) {
+        const we = document.getElementById('workshopError');
+        we.textContent = 'Tento workshop je už plný. Vyberte iné mesto.';
+        we.style.display = 'block';
+        we.scrollIntoView({ behavior: 'smooth' });
+        return false;
       }
 
-      // Bankový prevod - štandardné odoslanie do Sheets
-      document.getElementById('ageError').style.display = 'none';
+      // 5. Získaj spôsob platby
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bankovy';
+      console.log('Payment method selected:', paymentMethod);
+
+      // Zobraziť spinner a skryť tlačidlo
       document.querySelector('.submit-btn').style.display = 'none';
       document.getElementById('loading-spinner').style.display = 'block';
-      return true;
+
+      // Skryť chybové správy
+      document.getElementById('ageError').style.display = 'none';
+      document.getElementById('workshopError').style.display = 'none';
+
+      if (paymentMethod === 'online') {
+        // Pre online platbu nastavíme flag a počkáme na iframe load
+        window._onlineSubmitting = true;
+        console.log('Online payment - waiting for iframe response');
+        
+        // Vrátiť true - formulár sa odošle do iframe
+        return true;
+      } else {
+        // Pre bankový prevod - normálne odoslanie
+        window._onlineSubmitting = false;
+        console.log('Bank transfer - standard submission');
+        return true;
+      }
     }
+
+    // Funkcia na automatické vybratie mesta podľa URL parametra
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const city = params.get('city');
+      if (city) {
+        const radio = document.querySelector(`input[name="workshopCity"][value="${city}"]`);
+        if (radio) {
+          radio.checked = true;
+          console.log('City selected from URL:', city);
+        }
+      }
+    });
+
+    // Update payment method on change
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => {
+      r.addEventListener('change', () => {
+        syncPaymentHidden();
+        updateSubmitText();
+      });
+    });
+    
+    // Wait for iframe to load after submission
+    document.getElementById('hidden_iframe').addEventListener('load', function() {
+      console.log('Hidden iframe loaded - submission complete');
+      
+      // Počkáme chvíľu, aby GAS spracoval dáta
+      setTimeout(() => {
+        if (window._onlineSubmitting) {
+          console.log('Starting Stripe checkout after form submission');
+          window._onlineSubmitting = false;
+          startStripeCheckout();
+        } else {
+          console.log('Redirecting to success page for bank transfer');
+          window.location.href = 'uspesna-platba.html';
+        }
+      }, 1500);
+    });
+    
+    // Capacities
+    const capacities = {
+      'Bratislava': 40,
+      'Košice': 40,
+      'Nitra': 40,
+      'Poprad': 30,
+      'Praha': 50
+    };
+
+    // GAS URL - používame JSONP namiesto fetch kvôli CORS
+    const gasUrl = "https://script.google.com/macros/s/AKfycbxzVDmkZSBlHFL7e33Bu0_PEaLGssNM2YUe79GD_yYBDB_yGM3aCfOOs3YMqvjYlL-_4Q/exec";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded, initializing...');
+      
+      // Initial setup
+      syncPaymentHidden();
+      updateSubmitText();
+      
+      // Načítanie údajov o kapacite pomocou JSONP (riešenie CORS)
+      function loadRegistrationData() {
+        const script = document.createElement('script');
+        script.src = gasUrl + '?callback=handleRegistrationData';
+        document.head.appendChild(script);
+      }
+      
+      // Callback pre JSONP
+      window.handleRegistrationData = function(registered) {
+        console.log('Registration data received:', registered);
+        
+        Object.keys(capacities).forEach(city => {
+          const isFull = registered[city] >= capacities[city];
+          const input = document.querySelector(`input[name="workshopCity"][value="${city}"]`);
+          if (input && isFull) {
+            input.disabled = true;
+            input.closest('.workshop-option')?.classList.add('disabled');
+            console.log(`Workshop ${city} is full`);
+          }
+        });
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('form').style.display = 'block';
+        console.log('Form displayed');
+      };
+      
+      // Ak JSONP nefunguje, použijeme fallback
+      function fallbackToManual() {
+        console.log('Using fallback data');
+        
+        // Testovacie dáta - nahraďte reálnymi
+        const fallbackData = {
+          Bratislava: 13,
+          Nitra: 7,
+          Poprad: 2,
+          Košice: 8,
+          Praha: 1
+        };
+        
+        Object.keys(capacities).forEach(city => {
+          const isFull = fallbackData[city] >= capacities[city];
+          const input = document.querySelector(`input[name="workshopCity"][value="${city}"]`);
+          if (input && isFull) {
+            input.disabled = true;
+            input.closest('.workshop-option')?.classList.add('disabled');
+          }
+        });
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('form').style.display = 'block';
+        
+        // Pridaj varovanie
+        const warning = document.createElement('div');
+        warning.style.cssText = `
+          background: rgba(255, 235, 59, 0.2);
+          color: #ff9800;
+          padding: 15px;
+          border-radius: 8px;
+          margin: 15px 0;
+          border-left: 4px solid #ff9800;
+          text-align: center;
+        `;
+        warning.innerHTML = `
+          <strong>Poznámka:</strong> Nie je možné automaticky skontrolovať dostupnosť miest.<br>
+          <small>Kontaktujte nás pre aktuálny stav.</small>
+        `;
+        document.querySelector('.registration-form').insertBefore(warning, document.querySelector('.registration-form').firstChild);
+      }
+      
+      // Skúsime JSONP, ak nefunguje, fallback
+      loadRegistrationData();
+      
+      // Timeout pre fallback
+      setTimeout(() => {
+        if (document.getElementById('loading').style.display !== 'none') {
+          console.log('JSONP timeout, using fallback');
+          fallbackToManual();
+        }
+      }, 5000);
+      
+      // Debug: manuálny test GAS
+      console.log('Testing GAS URL...');
+      fetch(gasUrl, { mode: 'no-cors' })
+        .then(() => console.log('GAS URL accessible (no-cors)'))
+        .catch(err => console.log('GAS fetch error:', err.message));
+    });
+    
+    // Message listener pre komunikáciu s iframe (ak by GAS vracal HTML s postMessage)
+    window.addEventListener('message', function(event) {
+      console.log('Message received:', event.data);
+      // Tu môžete spracovať odpovede z GAS ak používate postMessage workaround
+    });
   </script>
 
 </body>
